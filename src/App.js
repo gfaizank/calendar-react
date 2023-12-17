@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import Calendar from './components/Calendar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   return (
     <div className="App">
-      <h1>Custom Scrollable 12-Month Calendar</h1>
+      <h2>
+        Scroll Down <FontAwesomeIcon icon={faChevronDown} />
+      </h2>
       <Calendar />
     </div>
   );

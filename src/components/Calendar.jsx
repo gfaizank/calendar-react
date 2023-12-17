@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Month from './Month';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-const LiveDateDisplay = () => {
+const LiveDateDisplay = ({ openEventModal }) => {
   const [liveDate, setLiveDate] = useState(new Date());
 
   useEffect(() => {
@@ -12,7 +14,16 @@ const LiveDateDisplay = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  return <div>Live Date: {liveDate.toLocaleString()}</div>;
+  return (
+    <div className="live-date-display">
+      <div className="day-name">
+        <h2>Custom Scrollable 12-Month Calendar</h2>
+      </div>
+      <div className="day-name" onClick={() => openEventModal(liveDate)}>
+        <div>Live Date: {liveDate.toLocaleString()}</div>
+      </div>
+    </div>
+  );
 };
 
 const Calendar = () => {
@@ -20,6 +31,7 @@ const Calendar = () => {
   const monthsToShow = 6;
   const [selectedDate, setSelectedDate] = useState(null);
   const [centerMonthIndex, setCenterMonthIndex] = useState(0);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     // Fetch the live date
@@ -50,12 +62,20 @@ const Calendar = () => {
   return (
     <div className="calendar" onScroll={handleScroll}>
       <LiveDateDisplay />
+      <div className="navbar">
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((dayName, index) => (
+          <div key={index} className="day-name">
+            {dayName}
+          </div>
+        ))}
+      </div>
       <div className="scroll-container">
         {[...Array(totalMonths)].map((_, index) => (
           <div key={index} onClick={() => handleMonthClick((centerMonthIndex + index - monthsToShow) % totalMonths)}>
             <Month
               monthIndex={(centerMonthIndex + index - monthsToShow) % totalMonths}
               setSelectedDate={setSelectedDate}
+              events={events}
             />
           </div>
         ))}
