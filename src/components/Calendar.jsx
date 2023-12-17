@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 import Month from './Month';
 
 const LiveDateDisplay = () => {
@@ -44,35 +43,26 @@ const Calendar = () => {
     setCenterMonthIndex(centeredMonthIndex);
   };
 
-  return (
-    <Router>
-      <div className="calendar" onScroll={handleScroll}>
-        <LiveDateDisplay />
-        <div className="scroll-container">
-          {[...Array(totalMonths)].map((_, index) => (
-            <Link key={index} to={`/month/${(centerMonthIndex + index - monthsToShow) % totalMonths}`}>
-              <Month
-                monthIndex={(centerMonthIndex + index - monthsToShow) % totalMonths}
-                setSelectedDate={setSelectedDate}
-              />
-            </Link>
-          ))}
-        </div>
-        {selectedDate && <div>Selected Date: {selectedDate}</div>}
-        <Routes>
-          <Route
-            path="/month/:monthIndex"
-            element={<MonthView setSelectedDate={setSelectedDate} />}
-          />
-        </Routes>
-      </div>
-    </Router>
-  );
-};
+  const handleMonthClick = (index) => {
+    setSelectedDate(`${new Date().getFullYear()}-${index + 1}-${new Date().getDate()}`);
+  };
 
-const MonthView = ({ setSelectedDate }) => {
-  const { monthIndex } = useParams();
-  return <Month monthIndex={parseInt(monthIndex, 10)} setSelectedDate={setSelectedDate} />;
+  return (
+    <div className="calendar" onScroll={handleScroll}>
+      <LiveDateDisplay />
+      <div className="scroll-container">
+        {[...Array(totalMonths)].map((_, index) => (
+          <div key={index} onClick={() => handleMonthClick((centerMonthIndex + index - monthsToShow) % totalMonths)}>
+            <Month
+              monthIndex={(centerMonthIndex + index - monthsToShow) % totalMonths}
+              setSelectedDate={setSelectedDate}
+            />
+          </div>
+        ))}
+      </div>
+      {selectedDate && <div>Selected Date: {selectedDate}</div>}
+    </div>
+  );
 };
 
 export default Calendar;

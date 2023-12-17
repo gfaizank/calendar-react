@@ -1,5 +1,3 @@
-// Month.js
-
 import React from 'react';
 import { format } from 'date-fns';
 import DaysInMonths from './DaysInMonths';
