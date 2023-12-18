@@ -64,6 +64,53 @@
   color: rgb(27, 8, 242);
 }
 
+/* Add this CSS to your stylesheet or in your component's style tag */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.select-container {
+  width: 150px; /* Adjust the width as needed */
+  position: relative;
+}
+
+.select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Show the dropdown content when the dropdown is active */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
 @media screen and (max-width: 600px) {
   .month {
     margin: 10px;
