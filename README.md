@@ -1,6 +1,6 @@
 ## Custom Scrollable 12-Month Calendar
 
-A React application that provides a custom scrollable 12-month calendar with the ability to navigate and interact with events.
+A React application that provides a custom scrollable 12-month calendar with the ability to navigate and interact with events. This Calendar web app has been built without using any pre built calendar library. Logic for showing months as grid has been manually set up and the days and date structure is adapted from the year 2023-24.
 
 ## Features
 
