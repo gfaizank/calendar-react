@@ -1,45 +1,57 @@
 import React, { useState, useEffect } from 'react';
- import Month from './Month';
- import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
- import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import Month from './Month';
+import { Element, scroller } from 'react-scroll';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
- const LiveDateDisplay = ({ openEventModal }) => {
-   const [liveDate, setLiveDate] = useState(new Date());
+const LiveDateDisplay = ({ openEventModal }) => {
+  const [liveDate, setLiveDate] = useState(new Date());
 
-   useEffect(() => {
+  useEffect(() => {
     const intervalId = setInterval(() => {
       setLiveDate(new Date());
     }, 1000);
-     return () => clearInterval(intervalId);
-   }, []);
 
-   return (
-     <div className="live-date-display">
-       <div className="day-name">
-         <h2>Custom Scrollable 12-Month Calendar</h2>
-       </div>
-       <div className="day-name" onClick={() => openEventModal(liveDate)}>
-         <div>Live Date: {liveDate.toLocaleString()}</div>
-       </div>
-     </div>
-   );
- };
+    return () => clearInterval(intervalId);
+  }, []);
 
- const Calendar = () => {
-   const totalMonths = 12;
-   const monthsToShow = 6;
-   const [selectedDate, setSelectedDate] = useState(null);
-   const [centerMonthIndex, setCenterMonthIndex] = useState(0);
-   const [events, setEvents] = useState([]);
+  return (
+    <div className="live-date-display">
+      <div className="day-name">
+        <h2>Custom Scrollable 12-Month Calendar</h2>
+      </div>
+      <div className="day-name" onClick={() => openEventModal(liveDate)}>
+        <div>Live Date: {liveDate.toLocaleString()}</div>
+      </div>
+    </div>
+  );
+};
 
-   useEffect(() => {
-     // Fetch the live date
+const Calendar = () => {
+  const totalMonths = 12;
+  const monthsToShow = 6;
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [centerMonthIndex, setCenterMonthIndex] = useState(0);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // Fetch the live date
     const liveDate = new Date();
     // Update the center month based on the live date
-    setCenterMonthIndex(liveDate.getMonth());
+    const centerMonth = (liveDate.getMonth() - monthsToShow + totalMonths) % totalMonths;
+    setCenterMonthIndex(centerMonth);
     // Set the selected date to the live date
     setSelectedDate(`${liveDate.getFullYear()}-${liveDate.getMonth() + 1}-${liveDate.getDate()}`);
+
+    // Scroll to the current month on initial load
+    const currentMonthElementId = `month${centerMonth}`;
+    scroller.scrollTo(currentMonthElementId, {
+      duration: 800,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    });
   }, []);
+
   const handleScroll = (e) => {
     // Calculate the current scroll position
     const scrollPosition = e.target.scrollLeft;
@@ -48,32 +60,38 @@ import React, { useState, useEffect } from 'react';
     // Update the center month index
     setCenterMonthIndex(centeredMonthIndex);
   };
+
   const handleMonthClick = (index) => {
     setSelectedDate(`${new Date().getFullYear()}-${index + 1}-${new Date().getDate()}`);
   };
-   return (
-     <div className="calendar" onScroll={handleScroll}>
-       <LiveDateDisplay />
-       <div className="navbar">
-         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((dayName, index) => (
-           <div key={index} className="day-name">
-             {dayName}
-           </div>
-         ))}
-       </div>
-       <div className="scroll-container">
-         {[...Array(totalMonths)].map((_, index) => (
-           <div key={index} onClick={() => handleMonthClick((centerMonthIndex + index - monthsToShow) % totalMonths)}>
-             <Month
-               monthIndex={(centerMonthIndex + index - monthsToShow) % totalMonths}
-               setSelectedDate={setSelectedDate}
-               events={events}
-             />
-           </div>
-         ))}
+
+  return (
+    <div className="calendar" onScroll={handleScroll}>
+      <LiveDateDisplay />
+      <div className="navbar">
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((dayName, index) => (
+          <div key={index} className="day-name">
+            {dayName}
+          </div>
+        ))}
+      </div>
+      <div className="scroll-container">
+        {[...Array(totalMonths)].map((_, index) => (
+          <Element name={`month${index}`} key={index}>
+            <div>
+              <Month
+                monthIndex={(centerMonthIndex + index - monthsToShow + totalMonths) % totalMonths}
+                setSelectedDate={setSelectedDate}
+                events={events}
+              />
+            </div>
+          </Element>
+        ))}
       </div>
       {selectedDate && <div>Selected Date: {selectedDate}</div>}
     </div>
   );
 };
+
 export default Calendar;
+
