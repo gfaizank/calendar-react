@@ -33,3 +33,7 @@ FontAwesome
 **Video Demonstration Link:**
 
 https://drive.google.com/file/d/1v5bsaQ9xqLwYF730QIHpkk_GC5Axo72q/view?usp=sharing
+
+**Deployed Link-**
+
+https://fizz-calendar.netlify.app
