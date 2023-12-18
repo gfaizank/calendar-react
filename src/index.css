@@ -59,8 +59,9 @@
 }
 
 .current-date {
-  background-color: blue;
-  color: white;
+  font-size: larger;
+  font-weight: 900;
+  color: rgb(27, 8, 242);
 }
 
 @media screen and (max-width: 600px) {

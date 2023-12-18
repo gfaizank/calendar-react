@@ -1,10 +1,9 @@
-// Month.jsx
 import React from 'react';
 import { format } from 'date-fns';
 import DaysInMonths from './DaysInMonths';
 
 const Month = ({ monthIndex, setSelectedDate, currentDate, events }) => {
-  const currentMonth = new Date(0, monthIndex);
+  const currentMonth = new Date(0, monthIndex + 6); 
   const monthName = format(currentMonth, 'MMMM');
 
   return (
