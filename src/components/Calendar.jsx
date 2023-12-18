@@ -35,7 +35,7 @@ const Calendar = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    // Fetch the live date
+   
     const liveDate = new Date();
     // Update the center month based on the live date
     const centerMonth = (liveDate.getMonth() - monthsToShow + totalMonths) % totalMonths;
@@ -94,4 +94,3 @@ const Calendar = () => {
 };
 
 export default Calendar;
-

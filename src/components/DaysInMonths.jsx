@@ -47,7 +47,7 @@ import React, { useState, useEffect } from 'react';
 
          setEventList((prevEvents) => [...prevEvents, newEvent]);
 
-         // Handle the new event as needed (e.g., update state or make an API call)
+         
          console.log('New Event:', newEvent);
        }
      }
